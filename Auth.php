@@ -195,7 +195,7 @@ class Auth
 			$return['message'] = $addUser['message'];
 			return $return;
 		}
-	
+
 		$return['error'] = false;
 		$return['message'] = ($sendmail == true ? $this->lang["register_success"] : $this->lang['register_success_emailmessage_suppressed'] );
 
@@ -538,16 +538,16 @@ class Auth
 		} else {
 			$isactive = 1;
 		}
-		
+
 		$password = $this->getHash($password);
-		
+
 		if (is_array($params)&& count($params) > 0) {
 			$customParamsQueryArray = Array();
-	
+
 			foreach($params as $paramKey => $paramValue) {
 				$customParamsQueryArray[] = array('value' => $paramKey . ' = ?');
 			}
-	
+
 			$setParams = ', ' . implode(', ', array_map(function ($entry) {
 				return $entry['value'];
 			}, $customParamsQueryArray));
@@ -593,7 +593,7 @@ class Auth
 		$data['uid'] = $uid;
 		return $data;
 	}
-	
+
 	/**
 	* Gets public user data for a given UID and returns an array, password is not returned
 	* @param int $uid
@@ -618,7 +618,7 @@ class Auth
 		$data['uid'] = $uid;
 		unset($data['password']);
 		return $data;
-	}	
+	}
 
 	/**
 	* Allows a user to delete their account
@@ -707,24 +707,24 @@ class Auth
 		if($type != "activation" && $type != "reset") {
 			$return['message'] = $this->lang["system_error"] . " #08";
 			return $return;
-		}        
-	
+		}
+
         // if not set manually, check config data
         if($sendmail === NULL)
 		{
-			$sendmail = true;			
+			$sendmail = true;
 			if($type == "reset" && $this->config->emailmessage_suppress_reset === true ) {
 				$sendmail = false;
 				$return['error'] = false;
 				return $return;
-			} 
+			}
 			if ($type == "activation" && $this->config->emailmessage_suppress_activation === true ) {
 				$sendmail = false;
 				$return['error'] = false;
 				return $return;
 			}
-		}			
-	
+		}
+
 		$query = $this->dbh->prepare("SELECT id, expire FROM {$this->config->table_requests} WHERE uid = ? AND type = ?");
 		$query->execute(array($uid, $type));
 
@@ -761,7 +761,7 @@ class Auth
 
 		if($sendmail === true)
         {
-			// Check configuration for SMTP parameters	
+			// Check configuration for SMTP parameters
 	            $mail = new \PHPMailer;
 				if($this->config->smtp) {
 					$mail->isSMTP();
@@ -772,19 +772,19 @@ class Auth
 	            			$mail->Password = $this->config->smtp_password;
 	            		}
 					$mail->Port = $this->config->smtp_port;
-	
+
 					if(!is_null($this->config->smtp_security)) {
 						$mail->SMTPSecure = $this->config->smtp_security;
 				}
 			}
-	
+
 			$mail->From = $this->config->site_email;
 			$mail->FromName = $this->config->site_name;
 			$mail->addAddress($email);
 			$mail->isHTML(true);
-	
+
 			if($type == "activation") {
-	
+
 					$mail->Subject = sprintf($this->lang['email_activation_subject'], $this->config->site_name);
 					$mail->Body = sprintf($this->lang['email_activation_body'], $this->config->site_url, $this->config->site_activation_page, $key);
 					$mail->AltBody = sprintf($this->lang['email_activation_altbody'], $this->config->site_url, $this->config->site_activation_page, $key);
@@ -794,10 +794,10 @@ class Auth
 				$mail->Body = sprintf($this->lang['email_reset_body'], $this->config->site_url, $this->config->site_password_reset_page, $key);
 				$mail->AltBody = sprintf($this->lang['email_reset_altbody'], $this->config->site_url, $this->config->site_password_reset_page, $key);
 			}
-	
+
 			if(!$mail->send()) {
 				$this->deleteRequest($request_id);
-	
+
 				$return['message'] = $this->lang["system_error"] . " #10";
 				return $return;
 			}
@@ -1204,6 +1204,13 @@ class Auth
 			return $return;
 		}
 
+		if ($this->isEmailTaken($email)) {
+			$this->addAttempt();
+
+			$return['message'] = $this->lang["email_taken"];
+			return $return;
+		}
+		
 		$query = $this->dbh->prepare("UPDATE {$this->config->table_users} SET email = ? WHERE id = ?");
 		$query->execute(array($email, $uid));
 
@@ -1329,7 +1336,7 @@ class Auth
 		   return $_SERVER['REMOTE_ADDR'];
 		}
 	}
-	
+
 	/**
 	* Returns is user logged in
 	* @return boolean
