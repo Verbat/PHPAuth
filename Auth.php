@@ -762,13 +762,13 @@ class Auth
 
 		if($sendmail === true)
         {
-<<<<<<< HEAD
+//<<<<<<< HEAD
 			// Check configuration for SMTP parameters
 	            $mail = new \PHPMailer;
-=======
-			// Check configuration for SMTP parameters	
+//=======
+			// Check configuration for SMTP parameters
         $mail = new PHPMailer;
->>>>>>> 6a9085aeb7545fdf2746a5b4f0288aae38ba059d
+//>>>>>>> 6a9085aeb7545fdf2746a5b4f0288aae38ba059d
 				if($this->config->smtp) {
 					$mail->isSMTP();
 					$mail->Host = $this->config->smtp_host;
@@ -1216,7 +1216,7 @@ class Auth
 			$return['message'] = $this->lang["email_taken"];
 			return $return;
 		}
-		
+
 		$query = $this->dbh->prepare("UPDATE {$this->config->table_users} SET email = ? WHERE id = ?");
 		$query->execute(array($email, $uid));
 
