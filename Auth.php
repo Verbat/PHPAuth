@@ -762,13 +762,10 @@ class Auth
 
 		if($sendmail === true)
         {
-//<<<<<<< HEAD
+
 			// Check configuration for SMTP parameters
-	            $mail = new \PHPMailer;
-//=======
-			// Check configuration for SMTP parameters
-        $mail = new PHPMailer;
-//>>>>>>> 6a9085aeb7545fdf2746a5b4f0288aae38ba059d
+        $mail = new \PHPMailer;
+
 				if($this->config->smtp) {
 					$mail->isSMTP();
 					$mail->Host = $this->config->smtp_host;
