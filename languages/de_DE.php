@@ -37,7 +37,7 @@ $lang['account_activated'] = "Benutzerkonto wurde aktiviert.";
 $lang['logged_in'] = "Du bist jetzt angemeldet.";
 $lang['logged_out'] = "Du bist jetzt abgemeldet.";
 
-$lang['system_error'] = "Ein Systemfehler ist aufgetreten. Bitte versuche es erneut.";
+$lang['system_error'] = "Ein Systemfehler ist aufgetreten. Bitte versuche es später erneut.";
 
 $lang['register_success'] = "Dein Benutzerkonto wurde erstellt. Wir haben dir eine E-Mail mit einem Aktivierungslink geschickt.";
 $lang['register_success_emailmessage_suppressed'] = "Dein Benutzerkonto wurde erstellt.";

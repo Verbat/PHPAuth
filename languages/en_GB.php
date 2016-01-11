@@ -37,7 +37,7 @@ $lang['account_activated'] = "Account activated.";
 $lang['logged_in'] = "You are now logged in.";
 $lang['logged_out'] = "You are now logged out.";
 
-$lang['system_error'] = "A system error has been encountered. Please try again.";
+$lang['system_error'] = "A system error has been encountered. Please try again later.";
 
 $lang['register_success'] = "Account created. Activation email sent to email.";
 $lang['register_success_emailmessage_suppressed'] = "Account created.";
