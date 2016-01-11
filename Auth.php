@@ -3,6 +3,7 @@
 namespace PHPAuth;
 
 use ZxcvbnPhp\Zxcvbn;
+use PHPMailer\PHPMailer\PHPMailer;
 
 /***
 * Auth class
@@ -368,7 +369,7 @@ class Auth
 			$data['expire'] = date("Y-m-d H:i:s", strtotime($this->config->cookie_remember));
 			$data['expiretime'] = strtotime($data['expire']);
 		} else {
-			$data['expire'] = date("Y-m-d H:i:s", strtotime($this->config->cookie_remember));
+			$data['expire'] = date("Y-m-d H:i:s", strtotime($this->config->cookie_forget));
 			$data['expiretime'] = 0;
 		}
 
@@ -748,7 +749,7 @@ class Auth
 		}
 
 		$key = $this->getRandomKey(20);
-		$expire = date("Y-m-d H:i:s", strtotime("+1 day"));
+		$expire = date("Y-m-d H:i:s", strtotime($this->config->request_key_expiration));
 
 		$query = $this->dbh->prepare("INSERT INTO {$this->config->table_requests} (uid, rkey, expire, type) VALUES (?, ?, ?, ?)");
 
@@ -761,8 +762,13 @@ class Auth
 
 		if($sendmail === true)
         {
+<<<<<<< HEAD
 			// Check configuration for SMTP parameters
 	            $mail = new \PHPMailer;
+=======
+			// Check configuration for SMTP parameters	
+        $mail = new PHPMailer;
+>>>>>>> 6a9085aeb7545fdf2746a5b4f0288aae38ba059d
 				if($this->config->smtp) {
 					$mail->isSMTP();
 					$mail->Host = $this->config->smtp_host;
